@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  php-7.3:
+    build:
+        context: .
+        dockerfile: ./Dockerfile
+    container_name: php-slim-practice
+    volumes:
+       - ./app:/var/www/html
+    ports:
+       - 8080:80
