@@ -1,10 +1,8 @@
 <?php
+
+declare(strict_types=1);
+
+require_once __DIR__ . '/controllers/HomeController.php';
+
 // Routes
-
-$app->get('/[{name}]', function ($request, $response, $args) {
-    // Sample log message
-    $this->logger->info("Slim-Skeleton '/' route");
-
-    // Render index view
-    return $this->renderer->render($response, 'index.phtml', $args);
-});
+$app->get('/[{name}]', HomeController::class . ':index');
