@@ -16,9 +16,9 @@ if (PHP_SAPI == 'cli-server') {
 require __DIR__ . '/../vendor/autoload.php';
 
 // Debug
+require_once __DIR__ . '/ChromePhp.php';
 
 session_start();
-require_once __DIR__ . '/ChromePhp.php';
 
 // Instantiate the app
 $settings = require __DIR__ . '/../src/settings.php';
