@@ -1,12 +1,29 @@
 version: '3'
 
 services:
-  php-7.3:
+  web:
     build:
         context: .
         dockerfile: ./Dockerfile
-    container_name: php-slim-practice
+    container_name: slim-practice-web
     volumes:
        - ./app:/var/www/html
     ports:
        - 8080:80
+  db:
+    platform: linux/x86_64
+    image: mysql:5.7
+    container_name: slim-practice-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: app
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: docker
+      TZ: 'Asia/Tokyo'
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+    - ./db/data:/var/lib/mysql
+    - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
+    - ./db/sql:/docker-entrypoint-initdb.d
+    ports:
+    - 3306:3306
