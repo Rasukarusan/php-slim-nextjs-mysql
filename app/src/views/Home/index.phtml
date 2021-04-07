@@ -23,6 +23,15 @@
                 font-weight: 200;
                 margin-bottom: 0;
             }
+
+            table, td {
+                border: 1px solid #333;
+            }
+
+            thead {
+                background-color: #333;
+                color: #fff;
+            }
         </style>
     </head>
     <body>
@@ -33,6 +42,28 @@
             <h2>Hello <?= htmlspecialchars($name); ?>!</h2>
         <?php else: ?>
             <p>Try <a href="http://www.slimframework.com">SlimFramework</a>
+        <?php endif; ?>
+        <?php if (isset($logs)) : ?>
+            <table style="margin-left:auto; margin-right:auto;">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>LEVEL</th>
+                        <th>VALUE</th>
+                        <th>CREATED_AT</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach($logs as $log) : ?>
+                        <tr>
+                            <td><?= $log->id ?></td>
+                            <td><?= $log->level ?></td>
+                            <td><?= $log->value ?></td>
+                            <td><?= $log->createdAt ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
         <?php endif; ?>
     </body>
 </html>

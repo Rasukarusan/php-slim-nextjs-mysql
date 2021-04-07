@@ -11,6 +11,17 @@ return [
             'template_path' => __DIR__ . '/views/',
         ],
 
+        // DB
+        'db' => [
+            'driver' => 'mysql',
+            'host' => 'db',
+            'database' => 'app',
+            'username' => 'docker',
+            'password' => 'docker',
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+        ],
+
         // Monolog settings
         'logger' => [
             'name' => 'slim-app',

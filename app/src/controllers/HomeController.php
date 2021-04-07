@@ -1,7 +1,9 @@
 <?php
 
 declare(strict_types=1);
+require_once __DIR__ . '/../models/Log.php';
 
+use Models\Log;
 use Slim\Container;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -22,6 +24,9 @@ class HomeController
     {
         // Sample log message
         $this->app->logger->info("php-slim-practice '/' route");
+
+        $logs = Log::all();
+        $args['logs'] = $logs;
 
         // Render index view
         return $this->app->renderer->render($response, '/Home/index.phtml', $args);

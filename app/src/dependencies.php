@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // DIC configuration
 
 $container = $app->getContainer();
@@ -9,6 +11,16 @@ $container['renderer'] = function ($c) {
     return new Slim\Views\PhpRenderer($settings['template_path']);
 };
 
+// db
+$container['db'] = function ($c) {
+    $settings = $c->get('settings')['db'];
+    $capsule = new \Illuminate\Database\Capsule\Manager;
+    $capsule->addConnection($settings);
+    $capsule->setAsGlobal();
+    $capsule->bootEloquent();
+    return $capsule;
+};
+
 // monolog
 $container['logger'] = function ($c) {
     $settings = $c->get('settings')['logger'];
@@ -17,3 +29,5 @@ $container['logger'] = function ($c) {
     $logger->pushHandler(new Monolog\Handler\StreamHandler($settings['path'], $settings['level']));
     return $logger;
 };
+
+$container->get('db');

@@ -26,7 +26,12 @@ final class Logs extends AbstractMigration
             'null' => true,
             'comment' => 'INFO/WARN/ERROR',
         ]);
-        $table->addColumn('created', 'timestamp', [
+        $table->addColumn('value', 'string', [
+            'default' => '',
+            'limit' => 255,
+            'null' => false,
+        ]);
+        $table->addColumn('createdAt', 'timestamp', [
             'default' => 'CURRENT_TIMESTAMP',
         ]);
         $table->create();
