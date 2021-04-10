@@ -8,14 +8,9 @@ use Models\Log;
 
 class HomeService
 {
-    public function findAll()
+    public function currentLog(): array
     {
-        return Log::all();
-    }
-
-    public function store(): Result
-    {
-        $value = [
+        return [
             'scriptName' => $_SERVER['SCRIPT_NAME'],
             'requestUri' => $_SERVER['REQUEST_URI'],
             'authUser' => $_SERVER['PHP_AUTH_USER'],
@@ -23,6 +18,16 @@ class HomeService
             'remoteHost' => gethostbyaddr($_SERVER['REMOTE_ADDR']),
             'userAgent' => $_SERVER['HTTP_USER_AGENT'],
         ];
+    }
+
+    public function findAll()
+    {
+        return Log::all();
+    }
+
+    public function store(): Result
+    {
+        $value = $this->currentLog();
 
         try {
             $log = new Log();

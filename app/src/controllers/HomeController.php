@@ -24,9 +24,14 @@ class HomeController
 
     public function index(Request $request, Response $response, $args)
     {
-        $this->app->logger->info("php-slim-practice '/' route");
         $args['logs'] = $this->service->findAll();
+        $args['currentLog'] = $this->service->currentLog();
         return $this->app->renderer->render($response, '/Home/index.phtml', $args);
+    }
+
+    public function get(Request $request, Response $response, $args)
+    {
+        return $this->service->findAll()->toJson();
     }
 
     public function store(Request $request, Response $response, $args)

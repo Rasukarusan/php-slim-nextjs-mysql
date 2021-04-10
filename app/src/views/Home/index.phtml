@@ -80,10 +80,7 @@
                         <tr id=<?="log-{$log->id}" ?>>
                             <td><?= $log->id ?></td>
                             <td><?= $log->level ?></td>
-                            <td>
-                            <input id="value-<?=$log->id?>" type="text" value='<?= $log->value ?>' onblur='update(<?= $log->id; ?>, <?= $log->value; ?>)'></input>
-</td>
-
+                            <td><input id="value-<?=$log->id?>" type="text" value='<?= $log->value ?>' onblur='update(<?= $log->id; ?>, <?= $log->value; ?>)'></input></td>
                             <td><?= $log->createdAt ?></td>
                             <td><input type="button" id="edit" onclick="edit(<?=$log->id?>)" value="EDIT"></input></td>
                             <td><input type="button" id="delete" onclick="remove(<?=$log->id?>)" value="DELETE"></input></td>
@@ -92,6 +89,9 @@
                 </tbody>
             </table>
         <?php endif; ?>
+
+        <input style="margin-top:20px;" type="button" id="add" onclick='add()' value="ADD LOG"></input>
+        <input style="margin-top:20px;" type="button" id="add" onclick='show()' value="SHOW"></input>
 
         <script>
             const showAlert = (result) => {
@@ -105,6 +105,18 @@
                 setTimeout(() => {
                     fadeArea.innerHTML = ''
                 }, 1500)
+            }
+
+            const show = () =>{
+                fetch('/', { method: 'GET' }).then(res => res.json()).then(json => {
+                    console.log(json)
+                })
+            }
+
+            const add = () => {
+                fetch('/', { method: 'POST' }).then(res => res.json()).then(json => {
+                    showAlert(json.result)
+                })
             }
 
             const update = (id, orgValue) => {
