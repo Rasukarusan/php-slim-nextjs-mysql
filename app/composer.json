@@ -12,6 +12,9 @@
         }
     ],
     "scripts" : {
+        "update": [
+            "copmoser update"
+        ],
         "migrate" : [
             "php vendor/bin/phinx migrate"
         ],
@@ -29,6 +32,12 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^5.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Controllers\\": "src/controllers/",
+            "Models\\": "src/models/"
+        }
     },
     "autoload-dev": {
         "psr-4": {

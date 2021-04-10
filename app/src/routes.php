@@ -1,8 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
-require_once __DIR__ . '/controllers/HomeController.php';
+use Controllers\HomeController;
 
 // Routes
 $app->get('/[{name}]', HomeController::class . ':index');
