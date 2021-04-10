@@ -24,6 +24,11 @@
                 margin-bottom: 0;
             }
 
+            table {
+                margin-left:auto;
+                 margin-right:auto;
+            }
+
             table, td {
                 border: 1px solid #333;
             }
@@ -32,38 +37,98 @@
                 background-color: #333;
                 color: #fff;
             }
+
+        .fade{
+            animation: fadeIn 1s, fadeOut 1s 1s forwards;
+            color: white;
+        }
+
+        @keyframes fadeIn {
+          0% {opacity: 0}
+          100% {opacity: 1}
+        }
+        @keyframes fadeOut {
+          0% {opacity: 1}
+          100% {opacity: 0}
+        }
         </style>
     </head>
     <body>
         <h1>Slim</h1>
-        <div>a microframework for PHP</div>
+        <div id="fadeArea"></div>
 
         <?php if (isset($name)) : ?>
             <h2>Hello <?= htmlspecialchars($name); ?>!</h2>
         <?php else: ?>
-            <p>Try <a href="http://www.slimframework.com">SlimFramework</a>
+            <p >Try <a href="http://www.slimframework.com">SlimFramework</a>
         <?php endif; ?>
+
         <?php if (isset($logs)) : ?>
-            <table style="margin-left:auto; margin-right:auto;">
+            <table>
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>LEVEL</th>
                         <th>VALUE</th>
                         <th>CREATED_AT</th>
+                        <th>edit</th>
+                        <th>delete</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach($logs as $log) : ?>
-                        <tr>
+                        <tr id=<?="log-{$log->id}" ?>>
                             <td><?= $log->id ?></td>
                             <td><?= $log->level ?></td>
-                            <td><?= $log->value ?></td>
+                            <td>
+                            <input id="value-<?=$log->id?>" type="text" value='<?= $log->value ?>' onblur='update(<?= $log->id; ?>, <?= $log->value; ?>)'></input>
+</td>
+
                             <td><?= $log->createdAt ?></td>
+                            <td><input type="button" id="edit" onclick="edit(<?=$log->id?>)" value="EDIT"></input></td>
+                            <td><input type="button" id="delete" onclick="remove(<?=$log->id?>)" value="DELETE"></input></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
         <?php endif; ?>
+
+        <script>
+            const showAlert = (result) => {
+                const fadeArea = document.getElementById('fadeArea')
+                const fade = document.createElement('div');
+                const message = document.createTextNode(result ? 'success' : 'failed')
+                fade.appendChild(message)
+                fade.classList.add('fade')
+                fade.style.backgroundColor = result ? 'greenYellow' : 'red'
+                fadeArea.appendChild(fade)
+                setTimeout(() => {
+                    fadeArea.innerHTML = ''
+                }, 1500)
+            }
+
+            const update = (id, orgValue) => {
+                const input = document.getElementById(`value-${id}`)
+                const newValue = input.value
+                fetch(`/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                     'Content-type': 'application/json'
+                    },
+                    body: JSON.stringify({value: newValue})}).then(res => res.json()).then(json => {
+                        const { result } = json
+                        showAlert(result)
+                        document.getElementById(`value-${id}`).value = newValue
+                        if(!result) {
+                            input.value = JSON.stringify(orgValue)
+                        }
+                });
+            }
+            const remove = (id) => {
+                fetch(`/${id}`, {method: 'DELETE'}).then(res => res.text()).then(text => {
+                    alert(text)
+                });
+            }
+        </script>
     </body>
 </html>

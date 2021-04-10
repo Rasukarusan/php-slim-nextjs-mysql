@@ -54,7 +54,6 @@ class HomeService
     {
         try {
             $result = Log::destroy($id);
-            var_dump($result);
         } catch (Exception $e) {
             return new Result($e->getMessage(), false);
         }
