@@ -1,15 +1,26 @@
 version: '3'
 
 services:
-  web:
+  web-server:
     build:
         context: .
-        dockerfile: ./Dockerfile
-    container_name: slim-practice-web
+        dockerfile: ./docker/server/Dockerfile
+    container_name: slim-practice-server
     volumes:
-       - ./app:/var/www/html
+       - ./app/server:/var/www/html
     ports:
        - 8080:80
+  web-client:
+    build:
+        context: .
+        dockerfile: ./docker/client/Dockerfile
+    container_name: slim-practice-client
+    volumes:
+       - ./app/client:/usr/src/app
+    ports:
+       - 3000:3000
+    entrypoint: "/bin/sh -c 'yarn dev'"
+    stdin_open: true
   db:
     platform: linux/x86_64
     image: mysql:5.7
@@ -21,8 +32,8 @@ services:
       MYSQL_PASSWORD: docker
       TZ: 'Asia/Tokyo'
     volumes:
-    - ./db/data:/var/lib/mysql
-    - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
-    - ./db/sql:/docker-entrypoint-initdb.d
+    - ./docker/db/data:/var/lib/mysql
+    - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
+    - ./docker/db/sql:/docker-entrypoint-initdb.d
     ports:
     - 3306:3306
