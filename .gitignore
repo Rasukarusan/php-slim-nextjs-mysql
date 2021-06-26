@@ -1,3 +1,4 @@
 ChromePhp.php
 docker/db/data
 docker/db/sql
+app/server/config/production.json
