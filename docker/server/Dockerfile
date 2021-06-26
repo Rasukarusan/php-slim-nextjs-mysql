@@ -7,6 +7,7 @@ RUN mkdir -p /root/.vim/colors
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 RUN chown -R www-data:www-data /var/www/html
 RUN a2enmod rewrite
+COPY --from=composer /usr/bin/composer /usr/bin/composer
 COPY ./docker/server/php.ini /usr/local/etc/php/
 COPY ./docker/server/dotfiles/vimrc /root/.vimrc
 COPY ./docker/server/dotfiles/jellybeans.vim /root/.vim/colors
