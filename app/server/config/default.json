@@ -1,0 +1,8 @@
+{
+    "Sentry" : {
+        "token": "YOUR_TOKEN",
+        "org": "YOUR_ORG",
+        "project": "YOUR_PROJECT",
+        "release": "YOUR_RELEASE"
+    }
+}
