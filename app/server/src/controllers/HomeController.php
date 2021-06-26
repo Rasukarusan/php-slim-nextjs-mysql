@@ -2,6 +2,7 @@
 
 namespace Controllers;
 
+use GuzzleHttp\Client;
 use Services\HomeService;
 use Slim\Container;
 use Slim\Http\Request;
@@ -24,6 +25,16 @@ class HomeController
 
     public function index(Request $request, Response $response, $args)
     {
+        $render = $request->getParam('render');
+
+        if ($render === 'spa') {
+            // TODO: not working
+            $client = new Client(); //(['base_url' => 'http://localhost:3000']);
+            $response = $client->get('http://web-client:3000');
+            $contents = $response->getBody()->getContents();
+            $args['body'] = $contents;
+            return $this->app->renderer->render($response, '/Home/react.phtml', $args);
+        }
         $args['logs'] = $this->service->findAll();
         $args['currentLog'] = $this->service->currentLog();
         return $this->app->renderer->render($response, '/Home/index.phtml', $args);
